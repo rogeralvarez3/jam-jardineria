@@ -7,26 +7,52 @@ const form = reactive({
   mensaje: '',
 })
 
-const status = ref('idle') // idle | sent
+// Clave de Web3Forms: se obtiene gratis en https://web3forms.com registrando
+// atencion@jamjardineria.com como correo de destino. Se coloca en un archivo
+// .env (ver .env.example) como VITE_WEB3FORMS_KEY, nunca directo en el código.
+const accessKey = import.meta.env.VITE_WEB3FORMS_KEY
 
-function handleSubmit() {
-  const destinatario = 'atencion@jamjardineria.com'
-  const asunto = `Solicitud de cotización — ${form.nombre || 'Nuevo contacto'}`
-  const cuerpo = [
-    `Nombre: ${form.nombre}`,
-    `Teléfono: ${form.telefono}`,
-    '',
-    'Mensaje:',
-    form.mensaje,
-  ].join('\n')
+const status = ref('idle') // idle | sending | sent | error
 
-  const mailtoUrl = `mailto:${destinatario}?subject=${encodeURIComponent(
-    asunto
-  )}&body=${encodeURIComponent(cuerpo)}`
+async function handleSubmit() {
+  if (!accessKey) {
+    status.value = 'error'
+    return
+  }
 
-  window.location.href = mailtoUrl
-  status.value = 'sent'
+  status.value = 'sending'
+
+  try {
+    const response = await fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify({
+        access_key: accessKey,
+        subject: `Solicitud de cotización — ${form.nombre || 'Nuevo contacto'}`,
+        from_name: 'Formulario JAM Jardinería',
+        name: form.nombre,
+        telefono: form.telefono,
+        mensaje: form.mensaje,
+      }),
+    })
+
+    const result = await response.json()
+
+    if (result.success) {
+      status.value = 'sent'
+      form.nombre = ''
+      form.telefono = ''
+      form.mensaje = ''
+    } else {
+      status.value = 'error'
+    }
+  } catch (error) {
+    status.value = 'error'
+  }
 }
+
+// Enlace de respaldo por si el visitante prefiere escribir desde su propio correo.
+const mailtoFallback = 'mailto:atencion@jamjardineria.com'
 </script>
 
 <template>
@@ -104,13 +130,20 @@ function handleSubmit() {
 
           <button
             type="submit"
-            class="w-full bg-canopy-800 hover:bg-canopy-900 text-sand-50 font-semibold px-6 py-3.5 rounded-full transition-colors"
+            :disabled="status === 'sending'"
+            class="w-full bg-canopy-800 hover:bg-canopy-900 disabled:opacity-60 disabled:cursor-not-allowed text-sand-50 font-semibold px-6 py-3.5 rounded-full transition-colors"
           >
-            Enviar mensaje
+            {{ status === 'sending' ? 'Enviando…' : 'Enviar mensaje' }}
           </button>
 
           <p v-if="status === 'sent'" class="text-sm text-canopy-700 text-center">
-            Se abrió tu correo con el mensaje listo para enviar.
+            Mensaje enviado. Te contactaremos pronto.
+          </p>
+          <p v-else-if="status === 'error'" class="text-sm text-center text-clay-700">
+            No se pudo enviar el mensaje. Escríbenos directo a
+            <a :href="mailtoFallback" class="underline">atencion@jamjardineria.com</a>
+            o por
+            <a href="https://wa.me/50672110267" target="_blank" rel="noopener" class="underline">WhatsApp</a>.
           </p>
         </div>
       </form>
