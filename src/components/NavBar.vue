@@ -21,6 +21,7 @@ function closeMenu() {
     <div class="max-w-6xl mx-auto px-5 sm:px-8">
       <div class="h-16 flex items-center justify-between">
         <a href="#inicio" class="flex items-baseline gap-1 font-display font-extrabold text-canopy-900" @click="closeMenu">
+          <v-img src="/assets/logo.jpg" alt="Logo JAM Jardinería" class="w-10 h-10" />
           <span class="text-xl font-extrabold tracking-tight">JAM</span>
           <span class="text-sm font-medium text-canopy-700">Jardinería</span>
         </a>
