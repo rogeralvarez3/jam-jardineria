@@ -10,7 +10,7 @@ import heroImage from '@/assets/images/hero-antes-despues.jpg'
           Chapea, siembra de zacate y jardinería en el Valle Central
         </p>
         <h1 class="font-display font-extrabold text-4xl sm:text-5xl leading-[1.08] text-canopy-950">
-          Un terreno lleno de maleza es un jardín que aún no conoce
+          Transformamos terrenos en espacios limpios y aprovechables
         </h1>
         <p class="mt-6 text-lg text-ink/70 max-w-md">
           JAM Jardinería limpia lotes baldíos, siembra zacate y mantiene áreas verdes de
@@ -35,7 +35,7 @@ import heroImage from '@/assets/images/hero-antes-despues.jpg'
         <dl class="mt-12 grid grid-cols-3 gap-6 max-w-md">
           <div>
             <dt class="font-display font-extrabold text-2xl text-canopy-800">100%</dt>
-            <dd class="text-sm text-ink/60">a la carbón, sin pereza</dd>
+            <dd class="text-sm text-ink/60">compromiso en cada servicio</dd>
           </div>
           <div>
             <dt class="font-display font-extrabold text-2xl text-canopy-800">Hogares</dt>
