@@ -9,7 +9,12 @@ npm install
 npm run dev
 ```
 
-Abre `http://localhost:5173`.
+Abre `https://localhost:5173`. El proyecto usa automáticamente el certificado
+local incluido en `certs/` cuando existe. Si esos archivos no están disponibles,
+Vite mantiene el comportamiento HTTP habitual en `http://localhost:5173`.
+
+El navegador mostrará una advertencia porque el certificado es autofirmado;
+acepta el acceso solo para desarrollo local.
 
 ## Build de producción
 

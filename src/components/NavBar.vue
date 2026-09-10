@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from 'vue'
+import logo from '@/assets/logo.jpeg'
 
 const isOpen = ref(false)
 const whatsappLink = 'https://wa.me/50672110267'
@@ -20,10 +21,12 @@ function closeMenu() {
   <header class="fixed top-0 inset-x-0 z-50 bg-sand-50/90 backdrop-blur border-b border-sand-200">
     <div class="max-w-6xl mx-auto px-5 sm:px-8">
       <div class="h-16 flex items-center justify-between">
-        <a href="#inicio" class="flex items-baseline gap-1 font-display font-extrabold text-canopy-900" @click="closeMenu">
-          <v-img src="/assets/logo.jpeg" alt="Logo JAM Jardinería" class="w-10 h-10" />
-          <span class="text-xl font-extrabold tracking-tight">JAM</span>
-          <span class="text-sm font-medium text-canopy-700">Jardinería</span>
+        <a href="#inicio" class="flex items-center font-display font-extrabold text-canopy-900" @click="closeMenu">
+          <img
+            :src="logo"
+            alt="JAM Jardinería"
+            class="h-12 w-24 object-contain mix-blend-multiply"
+          >
         </a>
 
         <nav class="hidden md:flex items-center gap-8">
